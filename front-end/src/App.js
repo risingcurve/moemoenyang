@@ -4,6 +4,8 @@ import AdminPage from "./pages/AdminPage";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import CatPage from "./pages/main/CatPage";
+import CatRegisterPage from "./pages/cat/CatRegisterPage";
+import CatDetailPage from "./pages/cat/CatDetailPage";
 import MainPage from "./pages/main/MainPage";
 import MapPage from "./pages/main/MapPage";
 // import SymptomsPage from "./pages/main/SymptomsPage";
