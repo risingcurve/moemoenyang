@@ -1,10 +1,9 @@
-package com.ssafy.moemoe.db.entity;
+package com.ssafy.moemoe.db.entity.board;
 
 import com.ssafy.moemoe.db.entity.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
 
 
 @Getter
@@ -16,7 +15,7 @@ import java.util.Date;
 public class Reaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reaction_id = null;
+    private Long reactionId = null;
 
     private String reat;
 

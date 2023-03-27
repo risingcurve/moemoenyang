@@ -1,16 +1,17 @@
 package com.ssafy.moemoe.api.service.board;
 
-import com.ssafy.moemoe.api.controller.university.UniversityController;
 import com.ssafy.moemoe.api.request.board.BoardSaveReq;
 import com.ssafy.moemoe.api.request.board.TagSaveReq;
 import com.ssafy.moemoe.api.response.board.BoardLoadResp;
 import com.ssafy.moemoe.api.response.board.BoardResp;
-import com.ssafy.moemoe.db.entity.Board;
-import com.ssafy.moemoe.db.entity.Tag;
+import com.ssafy.moemoe.db.entity.Cat;
+import com.ssafy.moemoe.db.entity.board.Board;
+import com.ssafy.moemoe.db.entity.board.Tag;
 import com.ssafy.moemoe.db.entity.member.Member;
 import com.ssafy.moemoe.db.entity.university.University;
 import com.ssafy.moemoe.db.repository.board.BoardRepository;
 import com.ssafy.moemoe.db.repository.board.TagRepository;
+import com.ssafy.moemoe.db.repository.cat.CatRepository;
 import com.ssafy.moemoe.db.repository.member.MemberRepository;
 import com.ssafy.moemoe.db.repository.university.UniversityRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,7 @@ public class BoardServiceImpl implements BoardService {
                 .content(boardSaveReq.getContent()).image(img).member(member).university(university).cat(cat).build());
 
 
-        return BoardResp.builder().boardId(board.getBoard_id()).catId().universityId().memberNickname()
+        return BoardResp.builder().boardId(board.getBoard_id()).catId(cat.getCatId()).universityId(university.getId()).memberNickname(member.getNickname())
                 .lat(board.getLat()).lng(board.getLng()).content(board.getContent()).build();
     }
 

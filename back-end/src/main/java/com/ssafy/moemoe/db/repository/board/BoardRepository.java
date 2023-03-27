@@ -1,6 +1,6 @@
 package com.ssafy.moemoe.db.repository.board;
 
-import com.ssafy.moemoe.db.entity.Board;
+import com.ssafy.moemoe.db.entity.board.Board;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,7 @@
 package com.ssafy.moemoe.db.repository.board;
 
 import com.ssafy.moemoe.api.response.board.BoardLoadResp;
+import com.ssafy.moemoe.api.response.board.TagLoadResp;
 import com.ssafy.moemoe.api.response.board.TagResp;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,6 @@ public interface TagRepositoryCustom { // Board 생성 Method
      * @param boardId      Board id
      * @return 검색 결과
      */
-    List<TagResp> findByBoardId(Long boardId);
+    List<TagLoadResp> findByBoardId(Long boardId);
 
 }

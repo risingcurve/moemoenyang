@@ -1,9 +1,8 @@
-package com.ssafy.moemoe.db.entity;
+package com.ssafy.moemoe.db.entity.board;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -16,7 +15,7 @@ import java.util.Date;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tag_id = null;
+    private Long tagId = null;
 
     private String name;
 

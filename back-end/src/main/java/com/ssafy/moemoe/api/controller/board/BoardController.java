@@ -93,7 +93,7 @@ public class BoardController {
                                     .build())
                     .cat(
                             CatDetailResp.builder()
-                                    .cat_id(1)
+                                    .catId((long)1)
                                     .image(tiredCatImage)
                                     .name("피곤냥이")
                                     .build()

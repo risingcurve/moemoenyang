@@ -1,5 +1,6 @@
-package com.ssafy.moemoe.db.entity;
+package com.ssafy.moemoe.db.entity.board;
 
+import com.ssafy.moemoe.db.entity.board.Board;
 import com.ssafy.moemoe.db.entity.member.Member;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
@@ -21,15 +22,15 @@ import java.util.Map;
 public class ReportBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long report_board_id = null;
+    private Long reportBoardId = null;
 
     @Type(type = "json")
     @Column(columnDefinition = "json")
     private Map<String, Object> data = new HashMap<>();
 
-    private static ReportBoard of(Map<String, Object> data) {
-        return new ReportBoard(null, data);
-    }
+//    private static ReportBoard of(Map<String, Object> data) {
+//        return new ReportBoard(null, data);
+//    }
 
     // ManyToOne 관계 설정
     @ManyToOne(fetch = FetchType.LAZY)

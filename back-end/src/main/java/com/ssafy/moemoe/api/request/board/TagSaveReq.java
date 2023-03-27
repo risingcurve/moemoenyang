@@ -18,9 +18,9 @@ import javax.validation.constraints.NotNull;
 public class TagSaveReq {
     @ApiModelProperty(example = "", name = "tag_name")
     @NotBlank(message = "name을 확인해주세요.")
-    String name;
+    private String name;
 
     @ApiModelProperty(example = "", name = "tag_rate")
     @NotBlank(message = "rate을 확인해주세요.")
-    Float rate;
+    private Float rate;
 }

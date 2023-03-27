@@ -1,19 +1,21 @@
 package com.ssafy.moemoe.db.repository.board;
 
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.moemoe.api.response.board.BoardLoadResp;
-import com.ssafy.moemoe.db.entity.Board;
+import com.ssafy.moemoe.api.response.board.QBoardLoadResp;
+import com.ssafy.moemoe.db.entity.QCat;
+import com.ssafy.moemoe.db.entity.board.Board;
+import com.ssafy.moemoe.db.entity.board.QBoard;
+import com.ssafy.moemoe.db.entity.board.QTag;
+import com.ssafy.moemoe.db.entity.member.QMember;
+import com.ssafy.moemoe.db.entity.university.QUniversity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -25,15 +27,24 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
 
+    QBoard qBoard = QBoard.board;
+    QTag qTag = QTag.tag;
+    QUniversity qUniversity = QUniversity.university;
+    QCat qCat = QCat.cat;
+    QMember qMember = QMember.member;
+
     @Override
     public Page<BoardLoadResp> findBoardByIdAndTag(Long universityId, String tagName, Pageable pageable) {
 
-        List<InterviewLoadRes> content = jpaQueryFactory
-                .select(new QInterviewLoadRes(qInterview))
-                .from(qInterview)
+        List<BoardLoadResp> content = jpaQueryFactory
+                .select(new QBoardLoadResp(qBoard, qCat, qMember, qUniversity))
+                .from(qBoard)
+                .leftJoin(qBoard.cat, qCat)
+                .leftJoin(qBoard.university, qUniversity)
+                .leftJoin(qBoard.member, qMember)
 //                .where(wordEq(word), categoryEq(categoryName), qInterview.interviewState.eq(4), qApplicant.user.id.isNull().or(qApplicant.user.id.ne(user_id)))
-                .where(wordEq(word), categoryEq(categoryName), interviewStateEq(4), qInterview.user.id.ne(user_id))
-                .orderBy()
+                .where(tagNameEq(tagName), qUniversity.universityId.eq(universityId))
+                .orderBy(qBoard.createdAt.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -41,7 +52,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         JPAQuery<Board> countQuery = jpaQueryFactory
                 .select(qBoard)
                 .from(qBoard)
-                .where(wordEq(word), categoryEq(categoryName), interviewStateEq(4), qInterview.user.id.ne(user_id));
+                .where(tagNameEq(tagName), qUniversity.universityId.eq(universityId));
 
         return PageableExecutionUtils.getPage(content, pageable, () -> countQuery.fetchCount());
     }

@@ -1,5 +1,6 @@
-package com.ssafy.moemoe.db.entity;
+package com.ssafy.moemoe.db.entity.board;
 
+import com.ssafy.moemoe.db.entity.Cat;
 import com.ssafy.moemoe.db.entity.member.Member;
 import com.ssafy.moemoe.db.entity.university.University;
 import lombok.*;
@@ -22,7 +23,7 @@ import java.util.List;
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long board_id = null;
+    private Long boardId = null;
 
     private Float lat;
 
@@ -49,7 +50,7 @@ public class Board {
 
     @CreatedDate // JPA에서 엔티티의 생성 시간을 처리
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     // OneToMany 관계 설정
     @OneToMany(mappedBy = "board")

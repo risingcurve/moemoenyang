@@ -2,7 +2,8 @@ package com.ssafy.moemoe.api.response.board;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
-import com.ssafy.moemoe.db.entity.Board;
+import com.ssafy.moemoe.db.entity.Cat;
+import com.ssafy.moemoe.db.entity.board.Board;
 import com.ssafy.moemoe.db.entity.member.Member;
 import com.ssafy.moemoe.db.entity.university.University;
 import io.swagger.annotations.ApiModel;
@@ -24,51 +25,51 @@ import java.util.List;
 @ApiModel("BoardLoadRes")
 public class BoardLoadResp {
     @ApiModelProperty(name = "Board ID")
-    Long boardId;
+    private Long boardId;
 
     @ApiModelProperty(name = "Cat ID")
-    Long catId;
+    private Long catId;
 
     @ApiModelProperty(name = "Cat image")
-    String catImage;
+    private String catImage;
 
     @ApiModelProperty(name = "Cat Name")
-    String catName;
+    private String catName;
 
     @ApiModelProperty(name = "Member Nickname")
-    String memberNickname;
+    private String memberNickname;
 
     @ApiModelProperty(name = "Board Image")
-    String boardImage;
+    private String boardImage;
 
     @ApiModelProperty(name = "Tags")
-    List<TagResp> tags;
+    private List<TagLoadResp> tags;
 
     @ApiModelProperty(name = "recommend")
-    Long recommend;
+    private Long recommend;
 
     @ApiModelProperty(name = "good")
-    Long good;
+    private Long good;
 
     @ApiModelProperty(name = "impressed")
-    Long impressed;
+    private Long impressed;
 
     @ApiModelProperty(name = "sad")
-    Long sad;
+    private Long sad;
 
     @ApiModelProperty(name = "angry")
-    Long angry;
+    private Long angry;
 
     @ApiModelProperty(name = "createdAt")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-    LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @QueryProjection
     public BoardLoadResp(Board board, Cat cat, Member member, University university) {
-        this.boardId = board.getBoard_id();
-        this.catId = cat;
-        this.catImage = cat;
-        this.catName = cat;
+        this.boardId = board.getBoardId();
+        this.catId = cat.getCatId();
+        this.catImage = cat.getImage();
+        this.catName = cat.getName();
         this.memberNickname = member.getNickname();
         this.boardImage = board.getImage();
         this.recommend = board.getRecommend();
@@ -76,6 +77,6 @@ public class BoardLoadResp {
         this.impressed = board.getImpressed();
         this.sad = board.getSad();
         this.angry = board.getAngry();
-        this.createdAt = board.getCreated_at();
+        this.createdAt = board.getCreatedAt();
     }
 }
