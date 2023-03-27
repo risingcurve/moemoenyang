@@ -1,5 +1,6 @@
 package com.ssafy.moemoe.db.entity;
 
+import com.ssafy.moemoe.db.entity.member.Member;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import org.hibernate.annotations.Type;

@@ -10,6 +10,8 @@ import com.ssafy.moemoe.api.response.cat.CatDetailResp;
 import com.ssafy.moemoe.api.response.member.MemberDetailResp;
 import com.ssafy.moemoe.api.service.S3Uploader;
 import com.ssafy.moemoe.api.service.board.BoardService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -17,14 +19,15 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -41,6 +44,9 @@ public class BoardController {
     BoardService boardService;
     @Autowired
     S3Uploader s3Uploader;
+
+    @Value("${springboot.jwt.secret}")
+    private String secretKey = "secretKey";
 
     final String tiredCatImage = "https://i.ibb.co/9q6ZT22/image.jpg"; //피곤한 냥이 이미지
 
@@ -108,12 +114,16 @@ public class BoardController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<BoardResp> create(
+            HttpServletRequest request,
             @RequestPart @ApiParam(value = "프로필 이미지 파일", required = true) MultipartFile image,
             @RequestBody @Valid BoardSaveReq boardSaveReq,
-            @RequestBody @Valid List<TagSaveReq> tagSaveReqs,
-            @ApiIgnore Authentication authentication) throws IOException {
-        Long member_id = authService.getIdByAuthentication(authentication);
+            @RequestBody @Valid List<TagSaveReq> tagSaveReqs) throws IOException {
+        //여기 아래부터 클래스로 따로 뺴는게 더 깔끔할 것임.
+        String jwtToken = request.getHeader("X-AUTH-TOKEN");
+        Claims claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(jwtToken).getBody();
+        UUID member_id = UUID.fromString(claims.get("member_id").toString());
 
+        //이미지 업로드
         String img = s3Uploader.upload(image, "profile");
         logger.info("url >>> " + img);
 
@@ -134,8 +144,9 @@ public class BoardController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<BoardLoadResp>> findInterviewByCategoryAndWord(@RequestParam Long universityId, @RequestParam String tagName) {
+    public ResponseEntity<Page<BoardLoadResp>> findInterviewByCategoryAndWord(@RequestParam Long universityId, @RequestParam String tagName,
+                                                                              @PageableDefault(size = 20) Pageable pageable) {
 
-        return ResponseEntity.status(200).body(boardService.searchAllBoard(universityId, tagName));
+        return ResponseEntity.status(200).body(boardService.searchAllBoard(universityId, tagName, pageable));
     }
 }

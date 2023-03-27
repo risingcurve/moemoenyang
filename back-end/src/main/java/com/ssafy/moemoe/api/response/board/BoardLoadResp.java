@@ -3,6 +3,8 @@ package com.ssafy.moemoe.api.response.board;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
 import com.ssafy.moemoe.db.entity.Board;
+import com.ssafy.moemoe.db.entity.member.Member;
+import com.ssafy.moemoe.db.entity.university.University;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
@@ -33,9 +35,6 @@ public class BoardLoadResp {
     @ApiModelProperty(name = "Cat Name")
     String catName;
 
-    @ApiModelProperty(name = "Member image")
-    String memberImage;
-
     @ApiModelProperty(name = "Member Nickname")
     String memberNickname;
 
@@ -65,8 +64,18 @@ public class BoardLoadResp {
     LocalDateTime createdAt;
 
     @QueryProjection
-    public BoardLoadResp(Board board, Cat cat, University university) {
+    public BoardLoadResp(Board board, Cat cat, Member member, University university) {
         this.boardId = board.getBoard_id();
-        this.catId = cat.get
+        this.catId = cat;
+        this.catImage = cat;
+        this.catName = cat;
+        this.memberNickname = member.getNickname();
+        this.boardImage = board.getImage();
+        this.recommend = board.getRecommend();
+        this.good = board.getGood();
+        this.impressed = board.getImpressed();
+        this.sad = board.getSad();
+        this.angry = board.getAngry();
+        this.createdAt = board.getCreated_at();
     }
 }

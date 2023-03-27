@@ -7,8 +7,12 @@ import com.ssafy.moemoe.api.response.board.BoardLoadResp;
 import com.ssafy.moemoe.api.response.board.BoardResp;
 import com.ssafy.moemoe.db.entity.Board;
 import com.ssafy.moemoe.db.entity.Tag;
+import com.ssafy.moemoe.db.entity.member.Member;
+import com.ssafy.moemoe.db.entity.university.University;
 import com.ssafy.moemoe.db.repository.board.BoardRepository;
 import com.ssafy.moemoe.db.repository.board.TagRepository;
+import com.ssafy.moemoe.db.repository.member.MemberRepository;
+import com.ssafy.moemoe.db.repository.university.UniversityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Board 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -42,7 +43,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public BoardResp createBoard(Long member_id, String img, BoardSaveReq boardSaveReq) {
+    public BoardResp createBoard(UUID member_id, String img, BoardSaveReq boardSaveReq) {
         Member member = memberRepository.findById(member_id).orElseThrow(() -> new IllegalArgumentException("해당 유저는 없습니다. id=" + member_id));
         University university  = universityRepository.findById(boardSaveReq.getUniversityId()).orElseThrow(() -> new IllegalArgumentException("해당 학교는 없습니다."));
         Cat cat = catRepository.findById(boardSaveReq.getCatId()).orElseThrow(() -> new IllegalArgumentException("해당 고양이는 없습니다."));
@@ -72,9 +73,9 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<BoardLoadResp> searchAllBoard(Long universityId, String tagName) {
-
-
+    public Page<BoardLoadResp> searchAllBoard(Long universityId, String tagName, Pageable pageable) {
+        Page<BoardLoadResp> page = boardRepository.findBoardByIdAndTag(universityId, tagName, pageable);
+        List<BoardLoadResp> list = page.getContent();
 
         return null;
     }

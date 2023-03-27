@@ -16,11 +16,11 @@ import java.util.Date;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long tag_id = null;
+    private Long tag_id = null;
 
-    String name;
+    private String name;
 
-    float rate;
+    private Float rate;
 
     // ManyToOne 관계 설정
     @ManyToOne(fetch = FetchType.LAZY)

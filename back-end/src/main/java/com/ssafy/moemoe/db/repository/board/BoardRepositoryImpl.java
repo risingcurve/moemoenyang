@@ -6,7 +6,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.moemoe.api.response.board.BoardLoadResp;
-import com.ssafy.moemoe.api.response.board.BoardResp;
+import com.ssafy.moemoe.db.entity.Board;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,24 +26,27 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<BoardLoadResp> findBoardByIdAndTag(Long universityId, String tagName) {
+    public Page<BoardLoadResp> findBoardByIdAndTag(Long universityId, String tagName, Pageable pageable) {
 
-        return jpaQueryFactory
-                .select(new QBoardLoadResp(qBoard, qCat, q))
+        List<InterviewLoadRes> content = jpaQueryFactory
+                .select(new QInterviewLoadRes(qInterview))
                 .from(qInterview)
-                .leftJoin(qInterview.user, qUser)
-                .leftJoin(qInterview.interviewTimeList, qInterviewTime)
-                .leftJoin(qInterviewTime.applicantList, qApplicant)
-                .where(tagNameEq(word), qApplicant.applicantState.eq(applicantState), qApplicant.user.id.eq(user_id))
-                .orderBy(ORDERS.stream().toArray(OrderSpecifier[]::new))
+//                .where(wordEq(word), categoryEq(categoryName), qInterview.interviewState.eq(4), qApplicant.user.id.isNull().or(qApplicant.user.id.ne(user_id)))
+                .where(wordEq(word), categoryEq(categoryName), interviewStateEq(4), qInterview.user.id.ne(user_id))
+                .orderBy()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch();;
-    }
+                .fetch();
 
+        JPAQuery<Board> countQuery = jpaQueryFactory
+                .select(qBoard)
+                .from(qBoard)
+                .where(wordEq(word), categoryEq(categoryName), interviewStateEq(4), qInterview.user.id.ne(user_id));
+
+        return PageableExecutionUtils.getPage(content, pageable, () -> countQuery.fetchCount());
+    }
 
     private BooleanExpression tagNameEq(String tagName) {
         return tagName.isEmpty() ? null : qTag.name.contains(tagName);
     }
-
 }

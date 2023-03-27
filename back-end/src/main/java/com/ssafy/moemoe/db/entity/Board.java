@@ -1,14 +1,14 @@
 package com.ssafy.moemoe.db.entity;
 
+import com.ssafy.moemoe.db.entity.member.Member;
+import com.ssafy.moemoe.db.entity.university.University;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -22,34 +22,34 @@ import java.util.List;
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long board_id = null;
+    private Long board_id = null;
 
-    Float lat;
+    private Float lat;
 
-    Float lng;
+    private Float lng;
 
-    String content;
+    private String content;
 
-    String image;
-
-    @Builder.Default()
-    Long recommend = (long)0;
+    private String image;
 
     @Builder.Default()
-    Long good = (long)0;
+    private Long recommend = (long)0;
 
     @Builder.Default()
-    Long impressed = (long)0;
+    private Long good = (long)0;
 
     @Builder.Default()
-    Long sad = (long)0;
+    private Long impressed = (long)0;
 
     @Builder.Default()
-    Long angry = (long)0;
+    private Long sad = (long)0;
+
+    @Builder.Default()
+    private Long angry = (long)0;
 
     @CreatedDate // JPA에서 엔티티의 생성 시간을 처리
     @Column(name = "created_at", updatable = false)
-    LocalDateTime created_at;
+    private LocalDateTime created_at;
 
     // OneToMany 관계 설정
     @OneToMany(mappedBy = "board")

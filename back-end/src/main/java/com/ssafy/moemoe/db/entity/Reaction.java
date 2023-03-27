@@ -1,5 +1,6 @@
 package com.ssafy.moemoe.db.entity;
 
+import com.ssafy.moemoe.db.entity.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,9 +16,9 @@ import java.util.Date;
 public class Reaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long reaction_id = null;
+    private Long reaction_id = null;
 
-    String reat;
+    private String reat;
 
     // ManyToOne 관계 설정
     @ManyToOne(fetch = FetchType.LAZY)
