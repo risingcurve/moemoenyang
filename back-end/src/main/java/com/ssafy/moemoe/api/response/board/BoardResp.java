@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ApiModel("BoardResp")
 public class BoardResp {

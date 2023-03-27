@@ -26,11 +26,11 @@ public class BoardSaveReq {
 
     @ApiModelProperty(example = "", name = "경도")
     @NotBlank(message = "lat을 확인해주세요.")
-    float lat;
+    Float lat;
 
     @ApiModelProperty(example = "", name = "위도")
     @NotBlank(message = "lng를 확인해주세요.")
-    float lng;
+    Float lng;
 
     @ApiModelProperty(example = "", name = "내용")
     @NotNull(message = "content를 확인해주세요.")

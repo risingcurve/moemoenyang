@@ -24,9 +24,9 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long board_id = null;
 
-    float lat;
+    Float lat;
 
-    float lng;
+    Float lng;
 
     String content;
 

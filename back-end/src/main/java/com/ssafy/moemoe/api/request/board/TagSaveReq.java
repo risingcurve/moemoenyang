@@ -22,5 +22,5 @@ public class TagSaveReq {
 
     @ApiModelProperty(example = "", name = "tag_rate")
     @NotBlank(message = "rate을 확인해주세요.")
-    float rate;
+    Float rate;
 }
