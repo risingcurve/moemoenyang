@@ -2,6 +2,7 @@ package com.ssafy.moemoe.api.service.board;
 
 import com.ssafy.moemoe.api.request.board.BoardSaveReq;
 import com.ssafy.moemoe.api.request.board.TagSaveReq;
+import com.ssafy.moemoe.api.response.board.BoardLoadResp;
 import com.ssafy.moemoe.api.response.board.BoardResp;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,8 @@ public interface BoardService {
     BoardResp createBoard(Long member_id, String img, BoardSaveReq boardSaveReq);
 
     void createTag(Long board_id, List<TagSaveReq> tagSaveReqs);
+
+    List<BoardLoadResp> searchAllBoard(Long universityId, String tagName);
 
     // 게시글 전체 조회
 //    Page<InterviewTimeLoadRes> findInterviewByInterviewState(String email, InterviewSearchByStateReq interviewSearchByStateReq, Pageable pageable);

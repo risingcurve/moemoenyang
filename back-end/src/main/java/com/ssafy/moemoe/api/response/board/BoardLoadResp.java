@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ApiModel("BoardLoadRes")
-public class BoardLoadRes {
+public class BoardLoadResp {
     @ApiModelProperty(name = "Board ID")
     Long boardId;
 
@@ -66,7 +65,8 @@ public class BoardLoadRes {
     LocalDateTime createdAt;
 
     @QueryProjection
-    public BoardLoadRes(Board board, Cat cat, University university) {
+    public BoardLoadResp(Board board, Cat cat, University university) {
         this.boardId = board.getBoard_id();
+        this.catId = cat.get
     }
 }

@@ -3,6 +3,7 @@ package com.ssafy.moemoe.api.service.board;
 import com.ssafy.moemoe.api.controller.university.UniversityController;
 import com.ssafy.moemoe.api.request.board.BoardSaveReq;
 import com.ssafy.moemoe.api.request.board.TagSaveReq;
+import com.ssafy.moemoe.api.response.board.BoardLoadResp;
 import com.ssafy.moemoe.api.response.board.BoardResp;
 import com.ssafy.moemoe.db.entity.Board;
 import com.ssafy.moemoe.db.entity.Tag;
@@ -68,6 +69,14 @@ public class BoardServiceImpl implements BoardService {
         }
 
         tagRepository.saveAll(tags);
+    }
+
+    @Override
+    public List<BoardLoadResp> searchAllBoard(Long universityId, String tagName) {
+
+
+
+        return null;
     }
 
 }

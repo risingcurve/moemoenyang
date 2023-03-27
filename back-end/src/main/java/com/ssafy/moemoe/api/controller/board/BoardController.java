@@ -3,13 +3,13 @@ package com.ssafy.moemoe.api.controller.board;
 import com.ssafy.moemoe.api.request.board.BoardSaveReq;
 import com.ssafy.moemoe.api.request.board.TagSaveReq;
 import com.ssafy.moemoe.api.response.board.BoardDetailResp;
+import com.ssafy.moemoe.api.response.board.BoardLoadResp;
 import com.ssafy.moemoe.api.response.board.BoardResp;
 import com.ssafy.moemoe.api.response.board.TagResp;
 import com.ssafy.moemoe.api.response.cat.CatDetailResp;
 import com.ssafy.moemoe.api.response.member.MemberDetailResp;
 import com.ssafy.moemoe.api.service.S3Uploader;
 import com.ssafy.moemoe.api.service.board.BoardService;
-import com.ssafy.moemoe.common.model.BaseResponseBody;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -17,7 +17,6 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -127,7 +126,7 @@ public class BoardController {
         return ResponseEntity.status(200).body(boardResp);
     }
 
-    @GetMapping("/search")
+    @GetMapping
     @ApiOperation(value = "게시물 전체 and 테그별 공고 조회", notes = "테그명에 따라 조회가 가능하다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -135,9 +134,8 @@ public class BoardController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Page<>> findInterviewByCategoryAndWord(@RequestBody InterviewSearchReq interviewSearchReq, @PageableDefault(size = 8) Pageable pageable, @ApiIgnore Authentication authentication) {
-        Long user_id = authService.getIdByAuthentication(authentication);
+    public ResponseEntity<List<BoardLoadResp>> findInterviewByCategoryAndWord(@RequestParam Long universityId, @RequestParam String tagName) {
 
-        return ResponseEntity.status(200).body(interviewService.findInterviewByCategory(user_id, interviewSearchReq, pageable));
+        return ResponseEntity.status(200).body(boardService.searchAllBoard(universityId, tagName));
     }
 }
